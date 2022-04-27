@@ -10,12 +10,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import java.util.*;  
-
+import java.util.*;
 
 public class FirstSeleniumTest {
     public WebDriver driver;
-    
+
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
@@ -23,31 +22,29 @@ public class FirstSeleniumTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
-    
+
     @Test
     public void testSearch() {
         MainPage mainPage = new MainPage(this.driver);
         Assert.assertTrue(mainPage.getFooterText().contains("2021 ELTE Faculty of Informatics"));
-               
+
         SearchResultPage searchResultPage = mainPage.search("Students");
         String bodyText = searchResultPage.getBodyText();
-        Assert.assertTrue(bodyText.contains("found"));
-        Assert.assertTrue(bodyText.contains("For Students"));
+        Assert.assertTrue(bodyText.contains("FOUND"));
+        Assert.assertTrue(bodyText.contains("for Students"));
     }
-    
+
     @Test
     public void testSearch2() {
-        String[] searchQueries={"something","","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"};  
-        for(String searchQuery : searchQueries) {  
+        String[] searchQueries = { "something", "", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" };
+        for (String searchQuery : searchQueries) {
             MainPage mainPage = new MainPage(this.driver);
             SearchResultPage searchResultPage = mainPage.search(searchQuery);
             String bodyText = searchResultPage.getBodyText();
-            Assert.assertTrue(bodyText.contains("found"));
-        }  
+            Assert.assertTrue(bodyText.contains("FOUND"));
+        }
     }
-    
 
-    
     @After
     public void close() {
         if (driver != null) {
