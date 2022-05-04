@@ -1,16 +1,7 @@
 import org.junit.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import java.util.*;
 
 public class FirstSeleniumTest {
     public WebDriver driver;
@@ -18,31 +9,55 @@ public class FirstSeleniumTest {
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
-
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+    }
+
+    public DashboardPage login() {
+        MainPage mainPage = new MainPage(this.driver);
+        mainPage.clickCookiesButton();
+        mainPage.login("wagom95837@svcache.com", "password1234");
+        DashboardPage dashbaordPage = new DashboardPage(this.driver);
+        return dashbaordPage;
+    }
+
+    @Test
+    public void testLogin() throws InterruptedException {
+        Assert.assertTrue(login().getBodyText().contains("Welcome to Facebook, Lorand"));
+    }
+
+    @Test
+    public void testLogout() throws InterruptedException {
+        MainPage mainPage = new MainPage(this.driver);
+        mainPage.clickCookiesButton();
+        mainPage.login("wagom95837@svcache.com", "password1234");
+        mainPage.logout();
+        Assert.assertTrue(
+                mainPage.getBodyText().contains("Page"));
     }
 
     @Test
     public void testSearch() {
         MainPage mainPage = new MainPage(this.driver);
-        Assert.assertTrue(mainPage.getFooterText().contains("2021 ELTE Faculty of Informatics"));
-
-        SearchResultPage searchResultPage = mainPage.search("Students");
-        String bodyText = searchResultPage.getBodyText();
-        Assert.assertTrue(bodyText.contains("FOUND"));
-        Assert.assertTrue(bodyText.contains("for Students"));
+        mainPage.clickCookiesButton();
+        mainPage.login("wagom95837@svcache.com", "password1234");
+        String[] searchQueries = { "first", "second", "third"
+        };
+        for (String searchQuery : searchQueries) {
+            MainPage mainPage1 = new MainPage(this.driver);
+            SearchResultPage searchResultPage = mainPage1.search(searchQuery);
+            String resultText = searchResultPage.getResultText();
+            Assert.assertTrue(resultText.contains("All"));
+        }
     }
 
     @Test
-    public void testSearch2() {
-        String[] searchQueries = { "something", "", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" };
-        for (String searchQuery : searchQueries) {
-            MainPage mainPage = new MainPage(this.driver);
-            SearchResultPage searchResultPage = mainPage.search(searchQuery);
-            String bodyText = searchResultPage.getBodyText();
-            Assert.assertTrue(bodyText.contains("FOUND"));
-        }
+    public void testPost() throws InterruptedException {
+        MainPage mainPage = new MainPage(this.driver);
+        mainPage.clickCookiesButton();
+        mainPage.login("wagom95837@svcache.com", "password1234");
+        mainPage.post("Hi");
+        Assert.assertTrue(mainPage.getBodyText().contains("Hi"));
     }
 
     @After

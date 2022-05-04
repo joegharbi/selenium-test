@@ -3,9 +3,9 @@ import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.By;
 
-class SearchResultPage extends PageBase {
+class ProfilePage extends PageBase {
 
-    public SearchResultPage(WebDriver driver) {
+    public ProfilePage(WebDriver driver) {
         super(driver);
     }
 
