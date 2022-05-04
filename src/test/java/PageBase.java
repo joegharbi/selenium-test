@@ -9,6 +9,7 @@ class PageBase {
     protected WebDriver driver;
     protected WebDriverWait wait;
     private By bodyBy = By.tagName("body");
+    protected By profileBy = By.xpath("//span[text()='Lorand']");
 
     public PageBase(WebDriver driver) {
         this.driver = driver;

@@ -13,25 +13,26 @@ public class FirstSeleniumTest {
         driver.manage().window().maximize();
     }
 
-    public DashboardPage login() {
+    @Test
+    public void testTitle() {
         MainPage mainPage = new MainPage(this.driver);
-        mainPage.clickCookiesButton();
-        mainPage.login("wagom95837@svcache.com", "password1234");
-        DashboardPage dashbaordPage = new DashboardPage(this.driver);
-        return dashbaordPage;
+        Assert.assertTrue(this.driver.getTitle().contains("Facebook - log in or sign up"));
     }
 
     @Test
-    public void testLogin() throws InterruptedException {
-        Assert.assertTrue(login().getBodyText().contains("Welcome to Facebook, Lorand"));
+    public void testLogin() {
+        MainPage mainPage = new MainPage(this.driver);
+        DashboardPage dashboardPage = mainPage.login("wagom95837@svcache.com",
+                "password1234");
+        Assert.assertTrue(dashboardPage.getBodyText().contains("Welcome to Facebook, Lorand"));
     }
 
     @Test
-    public void testLogout() throws InterruptedException {
+    public void testLogout() {
         MainPage mainPage = new MainPage(this.driver);
-        mainPage.clickCookiesButton();
-        mainPage.login("wagom95837@svcache.com", "password1234");
-        mainPage.logout();
+        DashboardPage dashboardPage = mainPage.login("wagom95837@svcache.com",
+                "password1234");
+        mainPage = dashboardPage.logout();
         Assert.assertTrue(
                 mainPage.getBodyText().contains("Page"));
     }
@@ -39,7 +40,6 @@ public class FirstSeleniumTest {
     @Test
     public void testSearch() {
         MainPage mainPage = new MainPage(this.driver);
-        mainPage.clickCookiesButton();
         mainPage.login("wagom95837@svcache.com", "password1234");
         String[] searchQueries = { "first", "second", "third"
         };
@@ -54,9 +54,9 @@ public class FirstSeleniumTest {
     @Test
     public void testPost() throws InterruptedException {
         MainPage mainPage = new MainPage(this.driver);
-        mainPage.clickCookiesButton();
         mainPage.login("wagom95837@svcache.com", "password1234");
-        mainPage.post("Hi");
+        ProfilePage profilePage = mainPage.profile();
+        profilePage.post("Hi");
         Assert.assertTrue(mainPage.getBodyText().contains("Hi"));
     }
 
