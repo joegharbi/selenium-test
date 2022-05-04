@@ -24,10 +24,6 @@ class MainPage extends PageBase {
         this.driver.get("https://www.facebook.com/");
     }
 
-    public String acceptCookiesText() {
-        return this.waitAndReturnElement(CookiesBy).getText();
-    }
-
     public void clickCookiesButton() {
         this.waitAndReturnElement(CookiesBy).click();
     }
