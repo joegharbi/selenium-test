@@ -11,8 +11,6 @@ class MainPage extends PageBase {
     private By passwordBy = By.xpath("//*[@id='pass']");
     private By signinBy = By.xpath("//*[@name='login']");
 
-    private By resultSearchBy = By.xpath("//span[text()='All']");
-
     public MainPage(WebDriver driver) {
         super(driver);
         this.driver.get("https://www.facebook.com/");
