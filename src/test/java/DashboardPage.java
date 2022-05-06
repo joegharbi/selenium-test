@@ -3,7 +3,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 class DashboardPage extends PageBase {
-    private By profileBy = By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div[4]/div[1]/span/div/div[1]");
+    private By profileBy = By.xpath("//div[@aria-label='Your profile']");
     private By logoutBy = By.xpath("//span[text()='Log Out']");
     private By usernameBy = By.xpath("//*[@id='email']");
 

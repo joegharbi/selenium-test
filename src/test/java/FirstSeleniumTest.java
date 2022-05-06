@@ -1,7 +1,11 @@
+import java.util.Date;
+import java.util.Random;
+
 import org.junit.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class FirstSeleniumTest {
     public WebDriver driver;
@@ -11,10 +15,12 @@ public class FirstSeleniumTest {
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("-incognito");
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         mainPage = new MainPage(this.driver);
-        dashboardPage = mainPage.login("wagom95837@svcache.com", "password1234");
+        dashboardPage = mainPage.login("wagom95837@svcache.com", "test1234test#");
     }
 
     @Test
@@ -48,8 +54,22 @@ public class FirstSeleniumTest {
     @Test
     public void testPost() throws InterruptedException {
         ProfilePage profilePage = mainPage.profile();
-        profilePage.post("Hi");
-        Assert.assertTrue(mainPage.getBodyText().contains("Hi"));
+        profilePage.post("Post test at: " + System.currentTimeMillis());
+        Assert.assertTrue(mainPage.getBodyText().contains("1m"));
+    }
+
+    @Test
+    public void testHoverMouseHome() {
+        mainPage.doHover();
+        String hoverText = mainPage.getHoverText();
+        Assert.assertEquals(hoverText, ("Home"));
+    }
+
+    @Test
+    public void testBackHistory() throws InterruptedException {
+        PageBase pageBase = dashboardPage.backButton();
+        Thread.sleep(6000);
+        Assert.assertTrue(pageBase.getBodyText().contains("What's on your mind, Lorand?"));
     }
 
     @After
