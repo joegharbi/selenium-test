@@ -12,6 +12,7 @@ class PageBase {
     private By bodyBy = By.tagName("body");
     protected By profileBy = By.xpath("//span[text()='Lorand']");
     protected By resultBy = By.xpath("//span[text()='All']");
+    protected By postBy = By.xpath("//span[text()=\"What's on your mind, Lorand?\"]");
 
     public PageBase(WebDriver driver) {
         this.driver = driver;
@@ -45,6 +46,7 @@ class PageBase {
 
     public PageBase backButton() {
         this.driver.navigate().back();
+        this.wait.until(ExpectedConditions.visibilityOfElementLocated(postBy));
         return this;
     }
 

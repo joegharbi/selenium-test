@@ -65,7 +65,6 @@ public class FirstSeleniumTest {
     @Test
     public void testBackHistory() throws InterruptedException {
         PageBase pageBase = dashboardPage.backButton();
-        Thread.sleep(6000);
         Assert.assertTrue(pageBase.getBodyText().contains("What's on your mind, Lorand?"));
     }
 
