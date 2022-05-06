@@ -1,6 +1,3 @@
-import java.util.Date;
-import java.util.Random;
-
 import org.junit.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
